@@ -1,5 +1,4 @@
-import { Injectable, NotFoundException, HttpStatus } from '@nestjs/common';
-import { NOTFOUND } from 'dns';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Coffee } from './entities/coffee.entity';
 
 @Injectable()
