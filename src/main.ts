@@ -7,6 +7,7 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true, // Would not send any addition Data that is not part of a DTO
+      transform: true,
       forbidNonWhitelisted: true, // Would Fail request if Data is not part of a DTO
     }),
   );
