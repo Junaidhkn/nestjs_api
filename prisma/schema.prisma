@@ -9,3 +9,10 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Coffee {
+  id       String @id @default(uuid())
+  name     String
+  brand    String
+  flavours Json?
+}
