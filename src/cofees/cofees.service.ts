@@ -1,44 +1,38 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Coffee } from './entities/coffee.entity';
-
+import { PrismaService } from 'src/prisma.service';
+import { CreateCoffeeDto } from '../coffees/dto/create-coffee.dto/create-coffee.dto';
+import { UpdateCoffeeDto } from '../coffees/dto/update-coffee.dto/update-coffee.dto';
 @Injectable()
 export class CofeesService {
-  private coffees: Coffee[] = [
-    {
-      id: 1,
-      name: 'Jack Coffee',
-      brand: 'Nescafe',
-      flavours: ['chocolate', 'vanilla'],
-    },
-  ];
-
+  constructor(private prismaService: PrismaService) {}
   findAll() {
-    return this.coffees;
+    return this.prismaService.coffee.findMany();
   }
 
   findOne(id: string) {
-    const coffee = this.coffees.find((item) => item.id === +id);
+    const coffee = this.prismaService.coffee.findUnique({ where: { id } });
     if (!coffee) {
       throw new NotFoundException(`Coffee #${id} not found`);
     }
     return coffee;
   }
 
-  create(createCoffeeDto: any) {
-    return this.coffees.push(createCoffeeDto);
+  create(createCoffeeDto: CreateCoffeeDto) {
+    return this.prismaService.coffee.create({ data: createCoffeeDto });
   }
 
-  update(id: string, updateCoffeeDto: any) {
-    const existingCoffee = this.findOne(id);
-    //  if (existingCoffee) {
-    //    // Update the existing Entity
-    //  }
+  update(id: string, updateCoffeeDto: UpdateCoffeeDto) {
+    const existingCoffee = this.prismaService.coffee.findUnique({
+      where: { id },
+    });
+    if (existingCoffee) {
+      // Update the existing Entity
+      return 'Update Logic runs';
+    }
+    return 'coffee with this id is not found';
   }
 
   remove(id: string) {
-    const coffeeIndex = this.coffees.findIndex((item) => item.id === +id);
-    if (coffeeIndex >= 0) {
-      this.coffees.splice(coffeeIndex, 1);
-    }
+    return this.prismaService.coffee.delete({ where: { id } });
   }
 }
