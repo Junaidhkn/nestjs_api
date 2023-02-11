@@ -27,7 +27,11 @@ export class CofeesService {
     });
     if (existingCoffee) {
       // Update the existing Entity
-      return 'Update Logic runs';
+      return this.prismaService.coffee.update({
+        where: { id },
+        data: updateCoffeeDto,
+      });
+      // return 'Update Logic runs';
     }
     return 'coffee with this id is not found';
   }
