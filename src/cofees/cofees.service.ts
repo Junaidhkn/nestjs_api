@@ -9,20 +9,25 @@ export class CofeesService {
     return this.prismaService.coffee.findMany();
   }
 
-  findOne(id: string) {
-    const coffee = this.prismaService.coffee.findUnique({ where: { id } });
+  async findOne(id: string) {
+    const coffee = await this.prismaService.coffee.findUnique({
+      where: { id },
+    });
     if (!coffee) {
       throw new NotFoundException(`Coffee #${id} not found`);
     }
     return coffee;
   }
 
-  create(createCoffeeDto: CreateCoffeeDto) {
-    return this.prismaService.coffee.create({ data: createCoffeeDto });
+  async create(createCoffeeDto: CreateCoffeeDto) {
+    const newCoffee = await this.prismaService.coffee.create({
+      data: createCoffeeDto,
+    });
+    return newCoffee;
   }
 
-  update(id: string, updateCoffeeDto: UpdateCoffeeDto) {
-    const existingCoffee = this.prismaService.coffee.findUnique({
+  async update(id: string, updateCoffeeDto: UpdateCoffeeDto) {
+    const existingCoffee = await this.prismaService.coffee.findUnique({
       where: { id },
     });
     if (existingCoffee) {
@@ -36,7 +41,8 @@ export class CofeesService {
     return 'coffee with this id is not found';
   }
 
-  remove(id: string) {
-    return this.prismaService.coffee.delete({ where: { id } });
+  async remove(id: string) {
+    await this.prismaService.coffee.delete({ where: { id } });
+    return `Coffee with an ID: ${id} has been successfully deleted!`;
   }
 }
