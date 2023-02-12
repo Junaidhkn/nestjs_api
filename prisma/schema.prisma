@@ -11,8 +11,8 @@ datasource db {
 }
 
 model Coffee {
-  id       String @id @default(uuid())
+  id       String   @id @default(uuid())
   name     String
   brand    String
-  flavours Json?
+  flavours String[]
 }
