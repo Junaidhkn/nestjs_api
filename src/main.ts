@@ -9,6 +9,9 @@ async function bootstrap() {
       whitelist: true, // Would not send any addition Data that is not part of a DTO
       transform: true,
       forbidNonWhitelisted: true, // Would Fail request if Data is not part of a DTO
+      transformOptions: {
+        enableImplicitConversion: true,
+      },
     }),
   );
   await app.listen(8000);
